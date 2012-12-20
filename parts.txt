@@ -1,0 +1,2 @@
+TLC5940NT - PWM LED driver -
+http://www.mouser.com/ProductDetail/Texas-Instruments/TLC5940NT/?qs=sGAEpiMZZMsE420DPIasPs6LbwOoWoV9WgDJbv4XgIY%3d
