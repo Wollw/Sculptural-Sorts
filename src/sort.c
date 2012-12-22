@@ -5,7 +5,7 @@
 void bubble_sort_apply(int a[], size_t len, apply_fn fn) {
     bool swapped;
     int temp;
-    size_t pos = 0;
+    size_t pos;
     for (size_t i = 0; i < len; i++) {
         swapped = false;
         for (pos = len - 1; pos > i; pos--) {
@@ -18,7 +18,8 @@ void bubble_sort_apply(int a[], size_t len, apply_fn fn) {
             }
         }
         fn(a, len, pos);
-        if (!swapped)
+        if (!swapped) {
             break;
+        }
     }
 }
