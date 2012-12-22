@@ -25,14 +25,13 @@
 
 
 # MCU name
-MCU = atmega328p
+MCU = attiny85
 
 # Fuse settings
 
-# ATtiny13 Fuses
-LFUSE = 0x6a
-HFUSE = 0xff
-#EFUSE = 0x05
+LFUSE = 0x62
+HFUSE = 0xdf
+EFUSE = 0xff
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the 
@@ -40,8 +39,7 @@ HFUSE = 0xff
 #     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
 #     automatically to create a 32-bit value in your source code.
 
-#F_CPU = 1200000# Default ATtiny13A clock speed
-F_CPU = 16000000# Default ATtiny13A clock speed
+F_CPU = 1000000
 
 # Serial communication settings
 PICOCOM = picocom
@@ -366,8 +364,7 @@ gccversion :
 
 # Program the fuses
 fuse:
-	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m
-#	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m
+	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m
 
 serial:
 	$(PICOCOM) -b $(BAUDRATE) $(SERIALPORT)

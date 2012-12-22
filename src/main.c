@@ -2,10 +2,16 @@
 #include <stdlib.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
-#include "serial.h"
 #include "sort.h"
+#include "shift.h"
 
 #define LENGTH(a) (sizeof(a)/sizeof(int))
+
+enum color_type {
+    GREEN,
+    CYAN,
+    BLUE
+};
 
 inline void swap(int *x, int *y) {
     int z = *x;
@@ -14,21 +20,39 @@ inline void swap(int *x, int *y) {
 }
 
 void display_sort_state(int a[], size_t len, size_t pos) {
+    shift_bits_begin();
+
+    for (size_t i = 0; i < len; i++) {
+        switch (a[i]) {
+            case GREEN:
+                shift_bit_out(true);
+                shift_bit_out(false);
+                break;
+            case CYAN:
+                shift_bit_out(true);
+                shift_bit_out(false);
+                break;
+            case BLUE:
+                shift_bit_out(false);
+                shift_bit_out(true);
+                break;
+        }
+    }
+
     for (size_t i = 0; i < len; i++)
-        printf(i < len - 1 ? "%5s  " : "%5s\r\n", i == pos? "v" : "");
-    for (size_t i = 0; i < len; i++)
-        printf(i < len - 1 ? "%5d, " : "%5d\r\n", a[i]);
-    printf("\r\n");
+        shift_bit_out(i == pos ? true : false);
+
+    shift_bits_end();
+
     _delay_ms(1000);
 }
 
 int main(void) {
-    serial_init(19200);
-    int a[] = {1,2,3,4,5};
+    shift_bits_init();
+    int a[] = {BLUE, CYAN, GREEN, GREEN};
     for(;;) {
-        printf("===RANDOMIZING===\r\n");
-        for (size_t i = 0; i < 5; i++) {
-            swap(&a[i], &a[rand()%5]);
+        for (size_t i = 0; i < LENGTH(a); i++) {
+            swap(&a[i], &a[rand()%LENGTH(a)]);
         }
         bubble_sort_apply(a, LENGTH(a), display_sort_state);
     }
