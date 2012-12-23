@@ -1,6 +1,5 @@
 #include <avr/io.h>
 #include "shift.h"
-#include <stdbool.h>
 
 void shift_bits_init(void) {
     CFG_SHIFT_DDR |= _BV(CFG_SHIFT_RCLK)

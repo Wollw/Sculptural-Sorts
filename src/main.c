@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "sort.h"
 #include "shift.h"
