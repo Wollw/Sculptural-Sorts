@@ -5,9 +5,9 @@
 typedef uint64_t bits_type;
 
 #define CFG_SHIFT_DDR   DDRB
-#define CFG_SHIFT_RCLK  PB0
-#define CFG_SHIFT_SRCLK PB1
-#define CFG_SHIFT_SER   PB2
+#define CFG_SHIFT_SER   PB0
+#define CFG_SHIFT_RCLK  PB1
+#define CFG_SHIFT_SRCLK PB2
 #define CFG_SHIFT_PORT  PORTB
 
 /* Setup the pins needed for shifting bits.

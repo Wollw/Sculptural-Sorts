@@ -48,8 +48,15 @@ void display_sort_state(int a[], size_t len, size_t pos) {
 }
 
 int main(void) {
+
+    int a[] = {
+        BLUE, CYAN,
+        GREEN, BLUE,
+        CYAN, GREEN,
+        CYAN, GREEN
+    };
+
     shift_bits_init();
-    int a[] = {BLUE, CYAN, GREEN, GREEN};
     for(;;) {
         for (size_t i = 0; i < LENGTH(a); i++) {
             swap(&a[i], &a[rand()%LENGTH(a)]);

@@ -25,13 +25,12 @@
 
 
 # MCU name
-MCU = attiny85
+MCU = attiny13
 
 # Fuse settings
 
-LFUSE = 0x62
-HFUSE = 0xdf
-EFUSE = 0xff
+LFUSE = 0x6a
+HFUSE = 0xff
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the 
@@ -39,7 +38,7 @@ EFUSE = 0xff
 #     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
 #     automatically to create a 32-bit value in your source code.
 
-F_CPU = 1000000
+F_CPU = 1200000
 
 # Serial communication settings
 PICOCOM = picocom
@@ -364,7 +363,8 @@ gccversion :
 
 # Program the fuses
 fuse:
-	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m
+#	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m
+	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m
 
 serial:
 	$(PICOCOM) -b $(BAUDRATE) $(SERIALPORT)
