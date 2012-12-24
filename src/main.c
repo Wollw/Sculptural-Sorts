@@ -12,13 +12,6 @@ enum color_type {
     BLUE
 };
 
-/* Simple swap utility function */
-inline void swap(int *x, int *y) {
-    int z = *x;
-    *x = *y;
-    *y = z;
-}
-
 /* Function executed for each step of the sorting algorithm.
  * This is used to change the state of the LEDs of the sculpture.
  *      int a[]    -- The current state of the array being sorted.
@@ -49,6 +42,13 @@ void display_sort_state(int a[], size_t len, size_t pos) {
 
     shift_bits_end();
     _delay_ms(1000);
+}
+
+/* Simple swap utility function */
+inline void swap(int *x, int *y) {
+    int z = *x;
+    *x = *y;
+    *y = z;
 }
 
 int main(void) {
