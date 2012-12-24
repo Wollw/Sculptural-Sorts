@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <util/delay.h>
-#include "sort.h"
+#include "sorts/sorts.h"
 #include "shift.h"
-
-#define LENGTH(a) (sizeof(a)/sizeof(int))
+#include "util.h"
 
 /* Available color states */
 enum color_type {
@@ -44,13 +43,6 @@ void display_sort_state(int a[], size_t len, size_t pos) {
     _delay_ms(1000);
 }
 
-/* Simple swap utility function */
-inline void swap(int *x, int *y) {
-    int z = *x;
-    *x = *y;
-    *y = z;
-}
-
 int main(void) {
 
     int a[] = {
@@ -65,6 +57,6 @@ int main(void) {
         for (size_t i = 0; i < LENGTH(a); i++) {
             swap(&a[i], &a[rand()%LENGTH(a)]);
         }
-        bubble_sort_apply(a, LENGTH(a), display_sort_state);
+        SORT_APPLY(ALGORITHM, a, display_sort_state);
     }
 }

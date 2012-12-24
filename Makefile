@@ -1,7 +1,9 @@
 #----------------------------------------------------------------------------
 # On command line:
 #
-# make all = Make software.
+# make bubble = Build bubble sort.
+#
+# make selection = Build slection sort.
 #
 # make clean = Clean out built project files.
 #
@@ -22,7 +24,6 @@
 #
 # To rebuild project do "make clean" then "make all".
 #----------------------------------------------------------------------------
-
 
 # MCU name
 MCU = attiny13
@@ -56,7 +57,7 @@ TARGET = sort
 
 # List C source files here. (C dependencies are automatically generated.)
 SRCDIR = src
-SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)src/*.s)
+SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)src/*.s) src/sorts/$(MAKECMDGOALS).c
 
 
 # List Assembler source files here.
@@ -97,7 +98,7 @@ EXTRAINCDIRS =
 CSTANDARD = -std=c99
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=$(F_CPU)UL
+CDEFS = -DF_CPU=$(F_CPU)UL -DALGORITHM=$(MAKECMDGOALS)
 
 
 # Place -I options here
@@ -312,9 +313,8 @@ GENDEPFLAGS = -MD -MP -MF .dep/$(@F).d
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS) $(GENDEPFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
-
-
-
+bubble: all
+selection: all
 
 # Default target.
 all: begin gccversion sizebefore build sizeafter end
@@ -370,10 +370,10 @@ serial:
 	$(PICOCOM) -b $(BAUDRATE) $(SERIALPORT)
 
 # Program the device.  
-program: $(TARGET).hex $(TARGET).eep
+program: 
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
-arduino: $(TARGET).hex $(TARGET).eep
+arduino: 
 	$(AVRDUDE) $(AVRDUDE_ARDUINO_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 # Generate avr-gdb config/init file which does the following:
@@ -514,7 +514,8 @@ clean_list :
 # Listing of phony targets.
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff \
-clean clean_list program debug gdb-config
+clean clean_list program debug gdb-config \
+bubble selection
 
 
 
