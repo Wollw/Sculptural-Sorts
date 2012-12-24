@@ -5,18 +5,25 @@
 
 #define LENGTH(a) (sizeof(a)/sizeof(int))
 
+/* Available color states */
 enum color_type {
     GREEN,
     CYAN,
     BLUE
 };
 
+/* Simple swap utility function */
 inline void swap(int *x, int *y) {
     int z = *x;
     *x = *y;
     *y = z;
 }
 
+/* Function executed for each step of the sorting algorithm.
+ * This is used to change the state of the LEDs of the sculpture.
+ *      int a[]    -- The current state of the array being sorted.
+ *      size_t len -- The length of the array.
+ *      size_t pos -- The position of the sorting cursor in the array. */
 void display_sort_state(int a[], size_t len, size_t pos) {
     shift_bits_begin();
 
@@ -41,7 +48,6 @@ void display_sort_state(int a[], size_t len, size_t pos) {
         shift_bit_out(i == pos ? true : false);
 
     shift_bits_end();
-
     _delay_ms(1000);
 }
 
