@@ -12,5 +12,6 @@ typedef void (*apply_fn)(int*, size_t, size_t);
  *      apply_fn fn -- The function to run for each step of the sort. */
 void bubble_sort_apply(int a[], size_t len, apply_fn fn);
 void selection_sort_apply(int a[], size_t len, apply_fn fn);
+void insertion_sort_apply(int a[], size_t len, apply_fn fn);
 
 #endif

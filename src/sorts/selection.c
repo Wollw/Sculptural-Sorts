@@ -11,9 +11,10 @@ void selection_sort_apply(int a[], size_t len, apply_fn fn) {
             fn(a, len, j);
             if (a[j] < a[k]) {
                 k = j;
-                swap(&a[i], &a[k]);
             }
         }
+        swap(&a[i], &a[k]);
+        fn(a, len, i);
     }
 }
 

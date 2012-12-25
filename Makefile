@@ -315,6 +315,7 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 bubble: all
 selection: all
+insertion: all
 
 # Default target.
 all: begin gccversion sizebefore build sizeafter end
@@ -503,6 +504,8 @@ clean_list :
 	$(REMOVE) $(LST)
 	$(REMOVE) $(SRC:.c=.s)
 	$(REMOVE) $(SRC:.c=.d)
+	$(REMOVE) src/sorts/*.o
+	$(REMOVE) src/sorts/*.lst
 	$(REMOVE) .dep/*
 
 
