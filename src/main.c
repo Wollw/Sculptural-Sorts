@@ -50,7 +50,7 @@ int main(void) {
     uint8_t a[] = {
         GREEN, CYAN, BLUE,
         GREEN, CYAN, BLUE,
-        GREEN, CYAN, BLUE
+        GREEN, CYAN
     };
 
     SHIFT_INIT();
