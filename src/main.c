@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <util/delay.h>
+#include <stdbool.h>
 #include "sorts/sorts.h"
 #include "shift.h"
 #include "util.h"
@@ -13,49 +14,53 @@ enum color_type {
 
 /* Function executed for each step of the sorting algorithm.
  * This is used to change the state of the LEDs of the sculpture.
- *      int a[]    -- The current state of the array being sorted.
- *      size_t len -- The length of the array.
- *      size_t pos -- The position of the sorting cursor in the array. */
-void display_sort_state(int a[], size_t len, size_t pos) {
-    shift_bits_begin();
+ *      uint8_t a[]    -- The current state of the array being sorted.
+ *      uint8_t len -- The length of the array.
+ *      uint8_t pos -- The position of the sorting cursor in the array. */
+void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
+    SHIFT_BEGIN();
 
-    for (size_t i = 0; i < len; i++) {
+    uint8_t i;
+    for (i = 0; i < len; i++) {
         switch (a[i]) {
             case GREEN:
-                shift_bit_out(true);
-                shift_bit_out(false);
+                SHIFT_OUT(true);
+                SHIFT_OUT(false);
                 break;
             case CYAN:
-                shift_bit_out(true);
-                shift_bit_out(false);
+                SHIFT_OUT(true);
+                SHIFT_OUT(true);
                 break;
             case BLUE:
-                shift_bit_out(false);
-                shift_bit_out(true);
+                SHIFT_OUT(false);
+                SHIFT_OUT(true);
                 break;
         }
     }
 
-    for (size_t i = 0; i < len; i++)
-        shift_bit_out(i == pos ? true : false);
+    for (i = 0; i < len; i++)
+        SHIFT_OUT(i == pos ? true : false);
 
-    shift_bits_end();
+    SHIFT_END();
     _delay_ms(1000);
 }
 
 int main(void) {
 
-    int a[] = {
+    uint8_t a[] = {
         BLUE, CYAN,
         GREEN, BLUE,
         CYAN, GREEN,
         CYAN, GREEN
     };
 
-    shift_bits_init();
+    SHIFT_INIT();
     for(;;) {
-        for (size_t i = 0; i < LENGTH(a); i++) {
-            swap(&a[i], &a[rand()%LENGTH(a)]);
+        for (uint8_t i = 0; i < LENGTH(a); i++) {
+            uint8_t r = rand() % LENGTH(a);
+            uint8_t t = a[i];
+            a[i] = a[r];
+            a[r] = t;
         }
         SORT_APPLY(ALGORITHM, a, display_sort_state);
     }

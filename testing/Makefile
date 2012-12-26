@@ -1,8 +1,8 @@
 TARGET=test
 
 CC=gcc
-CFLAGS=--std=c99
-SRC=main.c ../src/util.c ../src/sorts/*.c
+CFLAGS=--std=c99 -g
+SRC=main.c ../src/sorts/*.c
 
 all:
 
@@ -16,6 +16,10 @@ selection:
 
 insertion:
 	$(CC) $(SRC) -o $(TARGET) -DALGORITHM=insertion
+	./$(TARGET)
+
+shell:
+	$(CC) $(SRC) -o $(TARGET) -DALGORITHM=shell
 	./$(TARGET)
 
 clean:

@@ -316,6 +316,7 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 bubble: all
 selection: all
 insertion: all
+shell: all
 
 # Default target.
 all: begin gccversion sizebefore build sizeafter end
@@ -518,7 +519,6 @@ clean_list :
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff \
 clean clean_list program debug gdb-config \
-bubble selection
 
 
 
