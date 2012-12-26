@@ -48,10 +48,9 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
 int main(void) {
 
     uint8_t a[] = {
-        BLUE, CYAN,
-        GREEN, BLUE,
-        CYAN, GREEN,
-        CYAN, GREEN
+        GREEN, CYAN, BLUE,
+        GREEN, CYAN, BLUE,
+        GREEN, CYAN, BLUE
     };
 
     SHIFT_INIT();

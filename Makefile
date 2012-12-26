@@ -3,7 +3,11 @@
 #
 # make bubble = Build bubble sort.
 #
-# make selection = Build slection sort.
+# make selection = Build selection sort.
+#
+# make insertion = Build insertion sort.
+#
+# make shell = Build shell sort.
 #
 # make clean = Clean out built project files.
 #
@@ -313,12 +317,16 @@ GENDEPFLAGS = -MD -MP -MF .dep/$(@F).d
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS) $(GENDEPFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
-bubble: all
-selection: all
-insertion: all
-shell: all
+default:
+	@echo Use a target sort.
+
+bubble: clean all
+selection: clean all
+insertion: clean all
+shell: clean all
 
 # Default target.
+
 all: begin gccversion sizebefore build sizeafter end
 
 build: elf hex eep lss sym
