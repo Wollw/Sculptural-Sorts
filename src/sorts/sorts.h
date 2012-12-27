@@ -14,5 +14,6 @@ void bubble_sort_apply(uint8_t a[], uint8_t len, apply_fn fn);
 void selection_sort_apply(uint8_t a[], uint8_t len, apply_fn fn);
 void insertion_sort_apply(uint8_t a[], uint8_t len, apply_fn fn);
 void shell_sort_apply(uint8_t a[], uint8_t len, apply_fn fn);
+void heap_sort_apply(uint8_t a[], uint8_t len, apply_fn fn);
 
 #endif

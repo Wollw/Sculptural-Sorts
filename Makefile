@@ -2,12 +2,10 @@
 # On command line:
 #
 # make bubble = Build bubble sort.
-#
 # make selection = Build selection sort.
-#
 # make insertion = Build insertion sort.
-#
 # make shell = Build shell sort.
+# make heap = Build heap sort.
 #
 # make clean = Clean out built project files.
 #
@@ -324,6 +322,7 @@ bubble: clean all
 selection: clean all
 insertion: clean all
 shell: clean all
+heap: clean all
 
 # Default target.
 

@@ -26,7 +26,7 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
 int main(void) {
 
     uint8_t a[] = {
-        9,8,7,6,5,4,3,2,1,0
+        4,3,6,4,7,2,3,1
     };
 
     SORT_APPLY(ALGORITHM, a, display_sort_state);

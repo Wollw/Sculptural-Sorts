@@ -1,0 +1,151 @@
+EESchema Schematic File Version 2  date Wed 26 Dec 2012 02:29:34 AM PST
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:TPIC6B595
+LIBS:sort-cache
+EELAYER 25  0
+EELAYER END
+$Descr A4 11700 8267
+encoding utf-8
+Sheet 1 1
+Title ""
+Date "26 dec 2012"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L GND #PWR?
+U 1 1 50DAD17A
+P 1900 2050
+F 0 "#PWR?" H 1900 2050 30  0001 C CNN
+F 1 "GND" H 1900 1980 30  0001 C CNN
+	1    1900 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR?
+U 1 1 50DAD170
+P 1900 1050
+F 0 "#PWR?" H 1900 1150 30  0001 C CNN
+F 1 "VCC" H 1900 1150 30  0000 C CNN
+	1    1900 1050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 900  7700 900 
+Connection ~ 7700 3950
+Wire Wire Line
+	7700 2300 7350 2300
+Wire Wire Line
+	7350 5600 8000 5600
+Connection ~ 8000 2400
+Wire Wire Line
+	8000 4050 7350 4050
+Wire Wire Line
+	8000 2400 7350 2400
+Wire Wire Line
+	4900 1100 8000 1100
+Wire Wire Line
+	4900 1100 4900 1700
+Wire Wire Line
+	4900 1700 4150 1700
+Wire Wire Line
+	1900 2050 1900 1800
+Wire Wire Line
+	1900 1800 2150 1800
+Wire Wire Line
+	2150 1300 1900 1300
+Wire Wire Line
+	1900 1300 1900 1050
+Wire Wire Line
+	4150 1800 5850 1800
+Wire Wire Line
+	4150 1600 4400 1600
+Wire Wire Line
+	4400 1600 4400 900 
+Wire Wire Line
+	8000 1100 8000 5600
+Connection ~ 8000 4050
+Wire Wire Line
+	7350 5500 7700 5500
+Wire Wire Line
+	7700 3950 7350 3950
+Wire Wire Line
+	7700 5500 7700 900 
+Connection ~ 7700 2300
+$Comp
+L ATTINY13A-P IC1
+U 1 1 50DACB81
+P 3950 1900
+F 0 "IC1" H 4050 1950 60  0000 C CNN
+F 1 "ATTINY13A-P" H 5250 1150 60  0000 C CNN
+F 2 "DIP8" H 4050 1150 60  0001 C CNN
+	1    3950 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L TPIC6B595 U3
+U 1 1 50DACB51
+P 6600 5250
+F 0 "U3" H 6600 5150 50  0000 C CNN
+F 1 "TPIC6B595" H 6600 5350 50  0000 C CNN
+F 2 "MODULE" H 6600 5250 50  0001 C CNN
+F 3 "DOCUMENTATION" H 6600 5250 50  0001 C CNN
+	1    6600 5250
+	1    0    0    -1  
+$EndComp
+$Comp
+L TPIC6B595 U2
+U 1 1 50DACB4F
+P 6600 3700
+F 0 "U2" H 6600 3600 50  0000 C CNN
+F 1 "TPIC6B595" H 6600 3800 50  0000 C CNN
+F 2 "MODULE" H 6600 3700 50  0001 C CNN
+F 3 "DOCUMENTATION" H 6600 3700 50  0001 C CNN
+	1    6600 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L TPIC6B595 U1
+U 1 1 50DACB49
+P 6600 2050
+F 0 "U1" H 6600 1950 50  0000 C CNN
+F 1 "TPIC6B595" H 6600 2150 50  0000 C CNN
+F 2 "MODULE" H 6600 2050 50  0001 C CNN
+F 3 "DOCUMENTATION" H 6600 2050 50  0001 C CNN
+	1    6600 2050
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
