@@ -6,4 +6,4 @@ registers to visually display the operation of a sorting algorithm (currently
 bubble sort).
 
 ##Resources##
-(Sorting Out Sorting)[http://youtu.be/SJwEwA5gOkM]
+[Sorting Out Sorting](http://youtu.be/SJwEwA5gOkM)
