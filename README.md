@@ -7,3 +7,4 @@ bubble sort).
 
 ##Resources##
 [Sorting Out Sorting](http://youtu.be/SJwEwA5gOkM)
+[Sorting-Algorithms.com](http://www.sorting-algorithms.com/)
