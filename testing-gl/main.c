@@ -62,8 +62,18 @@ const GLfloat colors[3][4] = {
 };
 
 void *sort_thread_fn(void *v) {
-    SORT_APPLY(ALGORITHM, a, display_sort_state);
-    puts("done");
+    for(;;) {
+        for (uint8_t i = 0; i < LENGTH(a); i++) {
+            uint8_t r = rand() % LENGTH(a);
+            uint8_t t = a[i];
+            a[i] = a[r];
+            a[r] = t;
+        }
+        SORT_APPLY(ALGORITHM, a, display_sort_state);
+        updated = 1;
+        position = -1;
+        sleep(3);
+    }
 }
 
 void draw(void) {
