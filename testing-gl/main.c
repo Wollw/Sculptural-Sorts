@@ -113,7 +113,11 @@ void draw(void) {
 }
 
 void resize(int w, int h) {
-    glViewport(0, 0, w, h);
+    if (w < h)
+        glViewport(0, 0, w, w);
+    else
+        glViewport(0, 0, h, h);
+
 }
 
 void idle(void) {
