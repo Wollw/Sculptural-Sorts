@@ -13,8 +13,8 @@
 #include "util.h"
 #include "shader.h"
 
-#include "../src/sorts/sorts.h"
-#include "../src/util.h"
+#include "../../src/sorts/sorts.h"
+#include "../../src/util.h"
 
 volatile int position;
 volatile int updated = 0;
@@ -137,7 +137,7 @@ int main(int argc, char **argv) {
     glutReshapeFunc(resize);
     glutIdleFunc(idle);
 
-    program = create_shader_program_from_file("shader.vert", "shader.frag").prog;
+    program = create_shader_program_from_file("res/shader.vert", "res/shader.frag").prog;
     vPosition = glGetAttribLocation(program, "vPosition");
     uColor = glGetUniformLocation(program, "uColor");
     uOffset = glGetUniformLocation(program, "uOffset");
