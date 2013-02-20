@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <time.h>
 
 #include <pthread.h>
 #include <semaphore.h>
@@ -51,9 +52,7 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
     sleep(1);
 }
 
-uint8_t a[] = {
-    0, 1, 2, 1, 0, 2, 2, 0
-};
+uint8_t a[8];
 
 const GLfloat colors[3][4] = {
     {0.0, 1.0, 0.0, 0.0},
@@ -64,10 +63,7 @@ const GLfloat colors[3][4] = {
 void *sort_thread_fn(void *v) {
     for(;;) {
         for (uint8_t i = 0; i < LENGTH(a); i++) {
-            uint8_t r = rand() % LENGTH(a);
-            uint8_t t = a[i];
-            a[i] = a[r];
-            a[r] = t;
+            a[i] = rand() % 3;
         }
         SORT_APPLY(ALGORITHM, a, display_sort_state);
         updated = 1;
@@ -110,6 +106,7 @@ void draw(void) {
 
     glFlush();
 
+    updated = 0;
 }
 
 void resize(int w, int h) {
@@ -123,10 +120,12 @@ void resize(int w, int h) {
 void idle(void) {
     if (updated)
         glutPostRedisplay();
-    updated = 0;
 }
 
 int main(int argc, char **argv) {
+
+    srand(time(0));
+
     int w = 720;
     int h = 480;
 

@@ -47,19 +47,12 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
 
 int main(void) {
 
-    uint8_t a[] = {
-        GREEN, CYAN, BLUE,
-        GREEN, CYAN, BLUE,
-        GREEN, CYAN
-    };
+    uint8_t a[8];
 
     SHIFT_INIT();
     for(;;) {
         for (uint8_t i = 0; i < LENGTH(a); i++) {
-            uint8_t r = rand() % LENGTH(a);
-            uint8_t t = a[i];
-            a[i] = a[r];
-            a[r] = t;
+            a[i] = rand() % 3;
         }
         SORT_APPLY(ALGORITHM, a, display_sort_state);
     }
