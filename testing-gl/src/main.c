@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdint.h>
-#include <time.h>
+#include <unistd.h>
+#include <stdbool.h>
 
+#include <time.h>
 #include <pthread.h>
 #include <semaphore.h>
 
@@ -16,28 +17,105 @@
 #include "../../src/sorts/sorts.h"
 #include "../../src/util.h"
 
-volatile int position;
-volatile int updated = 0;
+/***********************/
+/* Shared Declarations */
+/***********************/
+volatile int position;         // current sort position.
+volatile bool updated = false; // flag to trigger redraw
+uint8_t a[8];         // sorting array
 
-int program;
-GLuint vertexBuffer;
-GLuint vPosition;
-GLuint uColor;
-GLuint uOffset;
+/*******************************/
+/* Sorting Thread Declarations */
+/*******************************/
+void *sort_thread_fn(void *);
+void sort_apply_fn(uint8_t *, uint8_t, uint8_t);
 
-static const GLfloat vertex_data[] = {
+/*****************************/
+/* OpenGL Thread Declaration */
+/*****************************/
+void draw(void);
+void resize(int, int);
+void idle(void);
+
+GLint program;
+GLint vertexBuffer;
+GLint vPosition;
+GLint uColor;
+GLint uOffset;
+
+static const GLfloat vertex_data[] = { 
     -0.5, -0.5, 0.0,
     -0.5,  0.5, 0.0,
      0.5, -0.5, 0.0,
      0.5,  0.5, 0.0
 };
 
+const GLfloat colors[3][4] = {
+    {0.5, 1.0, 0.5, 0.0},   // Green
+    {0.0, 1.0, 1.0, 0.0},   // Cyan
+    {0.5, 0.5, 1.0, 0.0}    // Blue
+};
+
+
+int main(int argc, char **argv) {
+    /* GLUT setup */
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
+    int wd = glutCreateWindow("Sorting Test");
+    glutDisplayFunc(draw);
+    glutReshapeFunc(resize);
+    glutIdleFunc(idle);
+
+    /* GLSL program setup */
+    program = create_shader_program_from_file("res/shader.vert", "res/shader.frag").prog;
+    vPosition = glGetAttribLocation(program, "vPosition");
+    uColor = glGetUniformLocation(program, "uColor");
+    uOffset = glGetUniformLocation(program, "uOffset");
+    glEnableVertexAttribArray(vPosition);
+    CHECK_GL();
+
+    /* Copy vertex data to GPU */
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data), vertex_data, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    CHECK_GL();
+
+    /* Create sorting thread */
+    pthread_t pth;
+    pthread_create(&pth, NULL, sort_thread_fn, NULL);
+
+    /* Start OpenGL loop */
+    glutMainLoop();
+
+    pthread_join(pth, NULL);
+    return 0;
+}
+
+/***********************/
+/* Sorting Thread Code */
+/***********************/
+
+/* Main function for the sorting thread. */
+void *sort_thread_fn(void *v) {
+    srand(time(0));
+    for(;;) {
+        for (uint8_t i = 0; i < LENGTH(a); i++) {
+            a[i] = rand() % 3;
+        }
+        SORT_APPLY(ALGORITHM, a, sort_apply_fn);
+        updated = true;
+        position = -1;
+        sleep(3);
+    }
+}
+
 /* Function executed for each step of the sorting algorithm.
  * Prints to stdout for testing.
  *      int a[]    -- The current state of the array being sorted.
  *      size_t len -- The length of the array.
  *      size_t pos -- The position of the sorting cursor in the array. */
-void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
+void sort_apply_fn(uint8_t a[], uint8_t len, uint8_t pos) {
     while (updated);
     uint8_t i;
     for (i = 0; i < len; i++)
@@ -48,33 +126,15 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
     }
     puts("");
     position = pos;
-    updated = 1;
+    updated = true;
     sleep(1);
 }
 
-uint8_t a[8];
-
-const GLfloat colors[3][4] = {
-    {0.0, 1.0, 0.0, 0.0},
-    {0.0, 0.75, 0.75, 0.0},
-    {0.0, 0.0, 1.0, 0.0}
-};
-
-void *sort_thread_fn(void *v) {
-    for(;;) {
-        for (uint8_t i = 0; i < LENGTH(a); i++) {
-            a[i] = rand() % 3;
-        }
-        SORT_APPLY(ALGORITHM, a, display_sort_state);
-        updated = 1;
-        position = -1;
-        sleep(3);
-    }
-}
+/**********************/
+/* OpenGL Thread Code */
+/**********************/
 
 void draw(void) {
-    puts("");
-    puts("REDRAWING");
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -106,7 +166,7 @@ void draw(void) {
 
     glFlush();
 
-    updated = 0;
+    updated = false;
 }
 
 void resize(int w, int h) {
@@ -122,40 +182,3 @@ void idle(void) {
         glutPostRedisplay();
 }
 
-int main(int argc, char **argv) {
-
-    srand(time(0));
-
-    int w = 720;
-    int h = 480;
-
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
-    glutInitWindowSize(w, h);
-    int wd = glutCreateWindow("Sorting Test");
-    glutDisplayFunc(draw);
-    glutReshapeFunc(resize);
-    glutIdleFunc(idle);
-
-    program = create_shader_program_from_file("res/shader.vert", "res/shader.frag").prog;
-    vPosition = glGetAttribLocation(program, "vPosition");
-    uColor = glGetUniformLocation(program, "uColor");
-    uOffset = glGetUniformLocation(program, "uOffset");
-    glEnableVertexAttribArray(vPosition);
-    CHECK_GL();
-
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data), vertex_data, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    CHECK_GL();
-
-    pthread_t pth;
-    pthread_create(&pth, NULL, sort_thread_fn, NULL);
-
-    glutMainLoop();
-
-    pthread_join(pth, NULL);
-
-    return 0;
-}

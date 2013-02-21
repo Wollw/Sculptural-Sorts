@@ -32,5 +32,4 @@ program_type create_shader_program(const GLchar *vertsrc, const GLchar *fragsrc)
     CHECK_GL();
 
     return shader;
-
 }
