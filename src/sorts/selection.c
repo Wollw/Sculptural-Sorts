@@ -3,7 +3,7 @@
 #include "../util.h"
 
 void selection_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
-    uint8_t i, j, k;
+    uint8_t i, j, k, t;
     for (i = 0; i < len; i++) {
         k = i;
         fn(a, len, i);
@@ -13,10 +13,17 @@ void selection_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
                 k = j;
             }
         }
-        uint8_t t = a[i];
-        a[i] = a[k];
-        a[k] = t;
-        fn(a, len, i);
+        if (k != i) {
+            if (k != j-1)
+                fn(a, len, k);
+            t = a[i];
+            a[i] = a[k];
+            a[k] = t;
+        }
+        if (i+1 != len)
+            fn(a, len, i);
+        else
+            fn(a, len, -1);
     }
 }
 
