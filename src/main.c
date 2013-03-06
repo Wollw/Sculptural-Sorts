@@ -1,6 +1,8 @@
 #include <stdlib.h>
-#include <util/delay.h>
 #include <stdbool.h>
+
+#include <util/delay.h>
+
 #include "sorts/sorts.h"
 #include "shift.h"
 #include "util.h"
@@ -19,9 +21,9 @@ enum color_type {
  *      uint8_t pos -- The position of the sorting cursor in the array. */
 void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
     SHIFT_BEGIN();
-
-    uint8_t i;
-    for (i = 0; i < len; i++) {
+    
+    // Shift out the color array state.
+    for (uint8_t i = 0; i < len; i++) {
         switch (a[i]) {
             case GREEN:
                 SHIFT_OUT(true);
@@ -38,19 +40,18 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
         }
     }
 
-    for (i = 0; i < len; i++)
+    // Shift out the cursor position.
+    for (uint8_t i = 0; i < len; i++)
         SHIFT_OUT(i == pos ? true : false);
 
     SHIFT_END();
     _delay_ms(1000);
 }
 
+uint8_t a[8];
 int main(void) {
-
-    uint8_t a[8];
-
     SHIFT_INIT();
-    for(;;) {
+    for(;;) {       // Randomize and sort forever.
         for (uint8_t i = 0; i < LENGTH(a); i++) {
             a[i] = rand() % 3;
         }

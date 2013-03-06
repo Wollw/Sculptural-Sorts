@@ -17,17 +17,19 @@
 
 /* Shift a bit state out to the shift registers */
 #define SHIFT_OUT(bit) \
-    CFG_SHIFT_PORT &= ~_BV(CFG_SHIFT_SRCLK); \
-    if (bit) \
-        CFG_SHIFT_PORT |= _BV(CFG_SHIFT_SER); \
-    else \
-        CFG_SHIFT_PORT &= ~_BV(CFG_SHIFT_SER); \
-    CFG_SHIFT_PORT |= _BV(CFG_SHIFT_SRCLK) \
+    do { \
+        CFG_SHIFT_PORT &= ~_BV(CFG_SHIFT_SRCLK); \
+        if (bit) \
+            CFG_SHIFT_PORT |= _BV(CFG_SHIFT_SER); \
+        else \
+            CFG_SHIFT_PORT &= ~_BV(CFG_SHIFT_SER); \
+        CFG_SHIFT_PORT |= _BV(CFG_SHIFT_SRCLK); \
+    } while (0)
 
 /* Begin a shift out process.  Run this before using shift_bit_out. */
-#define SHIFT_BEGIN() CFG_SHIFT_PORT &= ~_BV(CFG_SHIFT_RCLK)
+#define SHIFT_BEGIN() (CFG_SHIFT_PORT &= ~_BV(CFG_SHIFT_RCLK))
 
 /* End a shift out process.  Run this after the last call of shift_bit_out */
-#define SHIFT_END()    CFG_SHIFT_PORT |= _BV(CFG_SHIFT_RCLK)
+#define SHIFT_END()    (CFG_SHIFT_PORT |= _BV(CFG_SHIFT_RCLK))
 
 #endif
