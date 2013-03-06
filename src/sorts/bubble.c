@@ -4,19 +4,19 @@
 
 void bubble_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
     bool swapped;
-    uint8_t i, j;
-    for (i = 0; i < len; i++) {
+    uint8_t i;
+    for (;;) {
         swapped = false;
-        for (j = len - 1; j > i; j--) {
-            fn(a, len, j);
-            if (a[j] < a[j-1]) {
-                uint8_t t = a[j];
-                a[j] = a[j-1];
-                a[j-1] = t;
+        for (i = 0; i < len-1; i++) {
+            fn(a, len, i);
+            if (a[i+1] < a[i]) {
+                uint8_t t = a[i+1];
+                a[i+1] = a[i];
+                a[i] = t;
                 swapped = true;
             }
         }
-        fn(a, len, j);
+        fn(a, len, i);
         if (!swapped) {
             break;
         }
