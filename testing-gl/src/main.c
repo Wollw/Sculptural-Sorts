@@ -20,6 +20,10 @@
 /***********************/
 /* Shared Declarations */
 /***********************/
+/** Yeah, this should be implemented with a mutex... I'm being bad here
+ * because I want to use the same source as the AVR code for testing
+ * purposes and don't want to litter those files with preprocessor code...
+ */
 volatile int position;         // current sort position.
 volatile bool updated = false; // flag to trigger redraw
 uint8_t a[8];         // sorting array
@@ -81,7 +85,8 @@ int main(int argc, char **argv) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     CHECK_GL();
 
-    /* Create sorting thread */
+
+    /* Create sorting thread*/
     pthread_t pth;
     pthread_create(&pth, NULL, sort_thread_fn, NULL);
 
