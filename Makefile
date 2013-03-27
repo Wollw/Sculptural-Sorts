@@ -351,8 +351,8 @@ end:
 
 
 # Display size of file.
-HEXSIZE = $(SIZE) -B --target=$(FORMAT) $(TARGET).hex
-ELFSIZE = $(SIZE) -B $(TARGET).elf
+HEXSIZE = $(SIZE) --mcu=$(MCU) -C --target=$(FORMAT) $(TARGET).hex
+ELFSIZE = $(SIZE) --mcu=$(MCU) -C $(TARGET).elf
 AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
 
 sizebefore:
