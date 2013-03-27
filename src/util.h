@@ -2,6 +2,9 @@
 #define UTIL_H
 #include <stdint.h>
 
+#define ON 1
+#define OFF 0
+
 /* Length macro for uint8_t arrays */
 #define LENGTH(a) (sizeof(a)/sizeof(uint8_t))
 

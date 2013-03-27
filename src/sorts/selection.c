@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include "sorts.h"
 #include "../util.h"
 
