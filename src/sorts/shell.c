@@ -1,6 +1,8 @@
 #include "sorts.h"
 
-void shell_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
+void shell_sort_apply(
+        uint8_t a[], uint8_t len, apply_fn fn) {
+
     uint8_t i, j, tmp;
     uint8_t h = 1;
     while (h < len / 3)

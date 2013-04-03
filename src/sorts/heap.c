@@ -2,7 +2,10 @@
 
 volatile int8_t cursor_last = -1;
 
-void sift_down(uint8_t a[], uint8_t len, uint8_t start, uint8_t end, apply_fn fn) {
+void sift_down(
+        uint8_t a[], uint8_t len,
+        uint8_t start, uint8_t end, apply_fn fn) {
+
     uint8_t root = start;
     uint8_t tmp, child, swap;
     if (start != cursor_last) {
@@ -31,7 +34,9 @@ void sift_down(uint8_t a[], uint8_t len, uint8_t start, uint8_t end, apply_fn fn
     }
 }
 
-void heap_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
+void heap_sort_apply(
+        uint8_t a[], uint8_t len, apply_fn fn) {
+
     uint8_t end, tmp, start;
     start = (len - 2) >> 1;
     while (start > 0) {

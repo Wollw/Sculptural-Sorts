@@ -1,7 +1,9 @@
 #include "sorts.h"
 #include "../util.h"
 
-void selection_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
+void selection_sort_apply(
+        uint8_t a[], uint8_t len, apply_fn fn) {
+
     uint8_t i, j, k, t;
     for (i = 0; i < len; i++) {
         k = i;

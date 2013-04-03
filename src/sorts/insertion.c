@@ -1,7 +1,9 @@
 #include "sorts.h"
 #include "../util.h"
 
-void insertion_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
+void insertion_sort_apply(
+        uint8_t a[], uint8_t len, apply_fn fn) {
+
     uint8_t i, j, t;
     for (i = 1; i < len; i++) {
         fn(a, len, i);
@@ -12,5 +14,6 @@ void insertion_sort_apply(uint8_t a[], uint8_t len, apply_fn fn) {
             fn(a, len, j-1);
         }
     }
+
 }
 

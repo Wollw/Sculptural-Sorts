@@ -13,10 +13,13 @@ enum color_type {
 
 /* Function executed for each step of the sorting algorithm.
  * This is used to change the state of the LEDs of the sculpture.
- *      uint8_t a[]    -- The current state of the array being sorted.
+ *      uint8_t a[] -- The current state of the array.
  *      uint8_t len -- The length of the array.
- *      uint8_t pos -- The position of the sorting cursor in the array. */
-void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
+ *      uint8_t pos -- The position of the sorting cursor.
+ */
+void display_sort_state(
+        uint8_t a[], uint8_t len, uint8_t pos) {
+
     SHIFT_BEGIN();
     
     // Shift out the color array state.
@@ -42,7 +45,10 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
         SHIFT_OUT(i == pos ? ON : OFF);
 
     SHIFT_END();
-    for (uint32_t i = 0; i < 1000000000UL; i++); // this will need tweaking
+
+    // This delay will need tweaking.
+    for (uint32_t i = 0; i < 1000000000UL; i++);
+
 }
 
 uint8_t a[8];
