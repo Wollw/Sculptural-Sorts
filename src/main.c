@@ -1,7 +1,5 @@
 #include <stdlib.h>
 
-//#include <util/delay.h>
-
 #include "sorts/sorts.h"
 #include "shift.h"
 #include "util.h"
@@ -44,7 +42,7 @@ void display_sort_state(uint8_t a[], uint8_t len, uint8_t pos) {
         SHIFT_OUT(i == pos ? ON : OFF);
 
     SHIFT_END();
-    for (uint32_t i = 0; i < 1000000000UL; i++);
+    for (uint32_t i = 0; i < 1000000000UL; i++); // this will need tweaking
 }
 
 uint8_t a[8];
