@@ -1,11 +1,7 @@
 #----------------------------------------------------------------------------
 # On command line:
 #
-# make bubble = Build bubble sort.
-# make selection = Build selection sort.
-# make insertion = Build insertion sort.
-# make shell = Build shell sort.
-# make heap = Build heap sort.
+# make all = Make software.
 #
 # make clean = Clean out built project files.
 #
@@ -28,20 +24,20 @@
 #----------------------------------------------------------------------------
 
 # MCU name
-MCU = attiny13
+MCU = atmega328p
 
 # Fuse settings
 
-LFUSE = 0x6a
-HFUSE = 0xff
+#LFUSE = 0xff
+#HFUSE = 0xda
+#EFUSE = 0x05
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the 
 #     processor frequency. You can then use this symbol in your source code to 
 #     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
 #     automatically to create a 32-bit value in your source code.
-
-F_CPU = 1200000
+F_CPU = 16000000
 
 # Serial communication settings
 PICOCOM = picocom
@@ -54,12 +50,12 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = sort
+TARGET = main
 
 
 # List C source files here. (C dependencies are automatically generated.)
 SRCDIR = src
-SRC = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)src/*.s) src/sorts/$(MAKECMDGOALS).c
+SRC = $(wildcard $(SRCDIR)/*.c)
 
 
 # List Assembler source files here.
@@ -75,7 +71,7 @@ ASRC =
 # Optimization level, can be [0, 1, 2, 3, s]. 
 #     0 = turn off optimization. s = optimize for size.
 #     (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
-OPT = s
+OPT = 2
 
 
 # Debugging format.
@@ -100,7 +96,7 @@ EXTRAINCDIRS =
 CSTANDARD = -std=c99
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=$(F_CPU)UL -DALGORITHM=$(MAKECMDGOALS)
+CDEFS = -DF_CPU=$(F_CPU)UL
 
 
 # Place -I options here
@@ -115,10 +111,10 @@ CINCS =
 #  -Wall...:     warning level
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
-CFLAGS = -g$(DEBUG)
+#CFLAGS = -g$(DEBUG)
 CFLAGS += $(CDEFS) $(CINCS)
 CFLAGS += -O$(OPT)
-CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+#CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -Wall -Wstrict-prototypes -Wextra -Werror
 CFLAGS += -Wa,-adhlns=$(<:.c=.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
@@ -315,17 +311,11 @@ GENDEPFLAGS = -MD -MP -MF .dep/$(@F).d
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS) $(GENDEPFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
-default:
-	@echo Use a target sort.
 
-bubble: clean all
-selection: clean all
-insertion: clean all
-shell: clean all
-heap: clean all
+
+
 
 # Default target.
-
 all: begin gccversion sizebefore build sizeafter end
 
 build: elf hex eep lss sym
@@ -351,8 +341,8 @@ end:
 
 
 # Display size of file.
-HEXSIZE = $(SIZE) --mcu=$(MCU) -C --target=$(FORMAT) $(TARGET).hex
-ELFSIZE = $(SIZE) --mcu=$(MCU) -C $(TARGET).elf
+HEXSIZE = $(SIZE) -C --target=$(FORMAT) $(TARGET).hex
+ELFSIZE = $(SIZE) -C --mcu=$(MCU) $(TARGET).elf
 AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
 
 sizebefore:
@@ -372,17 +362,16 @@ gccversion :
 
 # Program the fuses
 fuse:
-#	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m
-	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m
+	$(AVRDUDE) $(AVRDUDE_FLAGS) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m
 
 serial:
 	$(PICOCOM) -b $(BAUDRATE) $(SERIALPORT)
 
 # Program the device.  
-program: 
+program: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
-arduino: 
+arduino: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_ARDUINO_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 # Generate avr-gdb config/init file which does the following:
@@ -512,8 +501,6 @@ clean_list :
 	$(REMOVE) $(LST)
 	$(REMOVE) $(SRC:.c=.s)
 	$(REMOVE) $(SRC:.c=.d)
-	$(REMOVE) src/sorts/*.o
-	$(REMOVE) src/sorts/*.lst
 	$(REMOVE) .dep/*
 
 
@@ -525,7 +512,7 @@ clean_list :
 # Listing of phony targets.
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff \
-clean clean_list program debug gdb-config \
+clean clean_list program debug gdb-config
 
 
 
