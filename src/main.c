@@ -4,7 +4,7 @@
 #include <util/delay.h>
 
 #define DELAY_MS    750
-#define COLOR_COUNT 3
+#define COLOR_COUNT 2
 
 #define SHFT_DDR    DDRB
 #define SHFT_PORT   PORTB
@@ -14,26 +14,26 @@
 #define SHFT_G      PIN3
 #define SHFT_SRCLR  PIN4
 
-enum { LED_GREEN
-     , LED_CYAN
-     , LED_BLUE
+enum { LED_ON
+     , LED_OFF
      };
 
 void sort(uint8_t*, uint8_t);
-
+void show_state(uint8_t*, uint8_t, uint8_t);
 void shift_init(void);
 void shift_begin(void);
 void shift_end(void);
 void shift_bit(bool);
 
+uint8_t a[8];
 int main(void) {
     shift_init();
     srandom(0);
-    uint8_t a[8];
     for(;;) {
         for (int i = 0; i < 8; i++)
             a[i] = ((uint8_t)random()) % COLOR_COUNT;
         sort(a, 8);
+        show_state(a, 8, 255);
     }
 }
 
@@ -77,16 +77,8 @@ void show_state(uint8_t a[], uint8_t len, uint8_t pos) {
     shift_begin();
     for (int8_t i = len - 1; i >= 0; i--) {
         switch (a[i]) {
-            case LED_GREEN: shift_bit(true); break;
-            case LED_CYAN:  shift_bit(false);  break;
-            case LED_BLUE:  shift_bit(false);  break;
-        }
-    }
-    for (int8_t i = len - 1; i >= 0; i--) {
-        switch (a[i]) {
-            case LED_GREEN: shift_bit(false);  break;
-            case LED_CYAN:  shift_bit(false);  break;
-            case LED_BLUE:  shift_bit(true); break;
+            case LED_ON:  shift_bit(true); break;
+            case LED_OFF:  shift_bit(false);  break;
         }
     }
     for (int8_t i = len - 1; i >= 0; i--) {
